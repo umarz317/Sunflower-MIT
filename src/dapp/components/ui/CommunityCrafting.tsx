@@ -223,7 +223,7 @@ export const CommunityCrafting: React.FC<Props> = ({
           <div className="ingredient">
             <div>
               <img className="ingredient-image" src={matic} />
-              <span className="ingredient-count">$MATIC</span>
+              <span className="ingredient-count">$tPLS</span>
             </div>
             <span className={`ingredient-text`}>
               {maticPrice.toFixed(2)}
