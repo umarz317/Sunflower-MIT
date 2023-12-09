@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import leftEdgeInner from '../../images/ui/panel/lt_box_9slice_lc.png'
 import rightEdgeInner from '../../images/ui/panel/lt_box_9slice_rc.png'
@@ -13,7 +13,8 @@ import './Panel.css'
 
 interface Props {
     onClick: () => void,
-    disabled?: boolean
+    disabled?: boolean,
+    children:ReactNode
 }
 export const Button: React.FC<Props> = ({
     children,

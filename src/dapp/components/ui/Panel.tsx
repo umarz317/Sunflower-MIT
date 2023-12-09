@@ -24,6 +24,7 @@ interface Props {
   hasInner?: boolean;
   hasOuter?: boolean;
   hasTabs?: boolean;
+  children: React.ReactNode;
 }
 export const Panel: React.FC<Props> = ({
   children,

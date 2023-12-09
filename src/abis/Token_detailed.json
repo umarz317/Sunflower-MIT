@@ -436,7 +436,7 @@
     },
     {
       "inputs": [],
-      "name": "totalSupply",
+      "name": "totalsupply",
       "outputs": [
         {
           "internalType": "uint256",

@@ -2,7 +2,7 @@ pragma solidity >=0.6.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
 //import "@openzeppelin/contracts/math/Math.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/Math.sol";
+import "@openzeppelin/contracts/math/Math.sol";
 
 import "./Token.sol";
 
@@ -410,59 +410,59 @@ contract FarmV2 {
     }
 
     // How many tokens do you get per dollar
-    // Algorithm is totalSupply / 10000 but we do this in gradual steps to avoid widly flucating prices between plant & harvest
+    // Algorithm is totalsupply / 10000 but we do this in gradual steps to avoid widly flucating prices between plant & harvest
     function getMarketRate() private view returns (uint conversion) {
         uint decimals = token.decimals();
-        uint totalSupply = token.totalSupply();
+        uint totalsupply = token.totalSupply();
 
         // Less than 100, 000 tokens
-        if (totalSupply < (100000 * 10**decimals)) {
+        if (totalsupply < (100000 * 10**decimals)) {
             // 1 Farm Dollar gets you 1 FMC token
             return 1;
         }
 
         // Less than 500, 000 tokens
-        if (totalSupply < (500000 * 10**decimals)) {
+        if (totalsupply < (500000 * 10**decimals)) {
             return 5;
         }
 
         // Less than 1, 000, 000 tokens
-        if (totalSupply < (1000000 * 10**decimals)) {
+        if (totalsupply < (1000000 * 10**decimals)) {
             return 10;
         }
 
         // Less than 5, 000, 000 tokens
-        if (totalSupply < (5000000 * 10**decimals)) {
+        if (totalsupply < (5000000 * 10**decimals)) {
             return 50;
         }
 
         // Less than 10, 000, 000 tokens
-        if (totalSupply < (10000000 * 10**decimals)) {
+        if (totalsupply < (10000000 * 10**decimals)) {
             return 100;
         }
 
         // Less than 50, 000, 000 tokens
-        if (totalSupply < (50000000 * 10**decimals)) {
+        if (totalsupply < (50000000 * 10**decimals)) {
             return 500;
         }
 
         // Less than 100, 000, 000 tokens
-        if (totalSupply < (100000000 * 10**decimals)) {
+        if (totalsupply < (100000000 * 10**decimals)) {
             return 1000;
         }
 
         // Less than 500, 000, 000 tokens
-        if (totalSupply < (500000000 * 10**decimals)) {
+        if (totalsupply < (500000000 * 10**decimals)) {
             return 5000;
         }
 
         // Less than 1, 000, 000, 000 tokens
-        if (totalSupply < (1000000000 * 10**decimals)) {
+        if (totalsupply < (1000000000 * 10**decimals)) {
             return 10000;
         }
 
         // 1 Farm Dollar gets you a 0.00001 of a token - Linear growth from here
-        return totalSupply.div(10000);
+        return totalsupply.div(10000);
     }
 
     function getMarketPrice(uint price) public view returns (uint conversion) {

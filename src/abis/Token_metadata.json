@@ -347,7 +347,7 @@
       },
       {
         "inputs": [],
-        "name": "totalSupply",
+        "name": "totalsupply",
         "outputs": [
           {
             "internalType": "uint256",
@@ -487,7 +487,7 @@
         "dweb:/ipfs/QmbwdBy1s5AkCjPRrTCcsnkPsgw64UKohN6qzp3GbdsmFY"
       ]
     },
-    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/GSN/Context.sol": {
+    "@openzeppelin/contracts/GSN/Context.sol": {
       "keccak256": "0x8d3cb350f04ff49cfb10aef08d87f19dcbaecc8027b0bed12f3275cd12f38cf0",
       "license": "MIT",
       "urls": [
@@ -495,7 +495,7 @@
         "dweb:/ipfs/QmfBrGtQP7rZEqEg6Wz6jh2N2Kukpj1z5v3CGWmAqrzm96"
       ]
     },
-    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/math/SafeMath.sol": {
+    "@openzeppelin/contracts/math/SafeMath.sol": {
       "keccak256": "0x3b21f2c8d626de3b9925ae33e972d8bf5c8b1bffb3f4ee94daeed7d0679036e6",
       "license": "MIT",
       "urls": [
@@ -503,7 +503,7 @@
         "dweb:/ipfs/QmXWLT7GcnHtA5NiD6MFi2CV3EWJY4wv5mLNnypqYDrxL3"
       ]
     },
-    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20.sol": {
+    "@openzeppelin/contracts/token/ERC20/ERC20.sol": {
       "keccak256": "0xcbd85c86627a47fd939f1f4ee3ba626575ff2a182e1804b29f5136394449b538",
       "license": "MIT",
       "urls": [
@@ -511,7 +511,7 @@
         "dweb:/ipfs/QmfRS6TtMNUHhvgLHXK21qKNnpn2S7g2Yd1fKaHKyFiJsR"
       ]
     },
-    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/ERC20Burnable.sol": {
+    "@openzeppelin/contracts/token/ERC20/ERC20Burnable.sol": {
       "keccak256": "0x20569e5d91a1f7478f4579962d35b35e5c68e10c5718696e3863c1a588da87c4",
       "license": "MIT",
       "urls": [
@@ -519,7 +519,7 @@
         "dweb:/ipfs/Qmb7g4vz3x238NMF9US6q8xUUamDy9upxZnms6ZaKkN37U"
       ]
     },
-    "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC20/IERC20.sol": {
+    "@openzeppelin/contracts/token/ERC20/IERC20.sol": {
       "keccak256": "0x5f02220344881ce43204ae4a6281145a67bc52c2bb1290a791857df3d19d78f5",
       "license": "MIT",
       "urls": [

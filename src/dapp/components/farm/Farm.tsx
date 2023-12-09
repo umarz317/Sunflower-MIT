@@ -53,9 +53,9 @@ export const Farm: React.FC = () => {
   const [totalItemSupplies, setTotalItemSupplies] =
     React.useState<Inventory>(DEFAULT_INVENTORY);
 
-  const [supply, setSupply] = React.useState<Supply>({
-    statue: 0,
-  });
+  // const [supply, setSupply] = React.useState<Supply>({
+  //   statue: 0,
+  // });
 
   const farmIsFresh = React.useRef(false);
   const accountId = React.useRef<string>();
@@ -90,6 +90,7 @@ export const Farm: React.FC = () => {
   }, [isDirty, machineState]);
 
   React.useEffect(() => {
+    try{
     const load = async () => {
       const isFarming =
         machineState.matches("farming") ||
@@ -141,14 +142,17 @@ export const Farm: React.FC = () => {
         setTotalItemSupplies(itemSupplies);
       }
     };
-
     load();
+  }catch(e){
+    console.log(e)
+  }
+    
   }, [machineState]);
 
   const onChangeItem = (item: ActionableItem) => {
     setSelectedItem(item);
-
-    cacheAccountFarm(accountId.current, { selectedItem: item.name });
+    if (accountId.current)
+      cacheAccountFarm(accountId.current, { selectedItem: item.name });
     // TODO - ?localStorage.setItem("fruit", fruit);
   };
   const onHarvest = React.useCallback(
@@ -175,8 +179,8 @@ export const Farm: React.FC = () => {
       );
       const price = fruits.find(
         (item) => item.fruit === harvestedFruit.fruit
-      ).sellPrice;
-
+      )?.sellPrice;
+if(price)
       setBalance(balance.plus(price));
 
       send("HARVEST");
@@ -190,13 +194,13 @@ export const Farm: React.FC = () => {
         return;
       }
 
-      const price = fruits.find(
-        (item) => item.fruit === selectedItem.fruit
-      ).buyPrice;
-
-      if (balance.lt(price)) {
-        return;
-      }
+      var price = fruits?.find(
+        (item) => item.fruit === selectedItem?.fruit
+      )?.buyPrice;
+      if (price)
+        if (balance.lt(price)) {
+          return;
+        }
 
       const now = Math.floor(Date.now() / 1000);
       const transaction: Transaction = {
@@ -213,6 +217,7 @@ export const Farm: React.FC = () => {
         );
         return newLand;
       });
+      if(price)
       setBalance(balance.minus(price));
 
       send("PLANT");
@@ -261,7 +266,7 @@ export const Farm: React.FC = () => {
             Save
             {isDirty && (
               <Timer
-                startAtSeconds={machineState.context.blockChain.lastSaved()}
+                startAtSeconds={machineState.context.blockChain.lastSaved()!==null?machineState.context.blockChain.lastSaved():0}
               />
             )}
           </Button>

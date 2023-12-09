@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.4.1/contracts/token/ERC20/ERC20.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.4.1/contracts/utils/math/SafeMath.sol";
+pragma solidity >=0.6.0 <0.8.0;
+pragma abicoder v2;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 // File: contracts/interfaces/IUniswapV2Router01.sol
 
@@ -231,7 +231,7 @@ interface CommunityItem {
 contract CommunityCrafting {
     using SafeMath for uint256;
 
-    IUniswapV2Router02 public immutable uniswapV2Router;
+    //IUniswapV2Router02 public immutable uniswapV2Router;
 
     address private sunflowerTeam;
 
@@ -247,10 +247,10 @@ contract CommunityCrafting {
 
 
     constructor() {
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
+        // IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
 
-        // set the rest of the contract variables
-        uniswapV2Router = _uniswapV2Router;
+        // // set the rest of the contract variables
+        // uniswapV2Router = _uniswapV2Router;
 
         sunflowerTeam = msg.sender;
     }
@@ -284,43 +284,43 @@ contract CommunityCrafting {
     }
 
     function payOut(uint sff, address owner) public payable {
-        address[] memory path = new address[](2);
-        // Sunflower Token
-        path[0] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
-        // WETH
-        path[1] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
+    //     address[] memory path = new address[](2);
+    //     // Sunflower Token
+    //     path[0] = 0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270;
+    //     // WETH
+    //     path[1] = 0xdf9B4b57865B403e08c85568442f95c26b7896b0;
 
-        uint[] memory values = uniswapV2Router.getAmountsIn(sff, path);
+    //     uint[] memory values = uniswapV2Router.getAmountsIn(sff, path);
 
-        // 20% to designer, 5% to team
-        uint totalEth = values[0].mul(125).div(100);
-        require(msg.value >= totalEth, "INSUFFICENT_ETH");
+    //     // 20% to designer, 5% to team
+    //     uint totalEth = values[0].mul(125).div(100);
+    //     require(msg.value >= totalEth, "INSUFFICENT_ETH");
 
-        // Transfer tokens to this contract so we can provide liquidity
-        ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[1]);
-        // Approve the router just in case
-        ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[1]);
+    //     // Transfer tokens to this contract so we can provide liquidity
+    //     ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).transferFrom(msg.sender, address(this), values[1]);
+    //     // Approve the router just in case
+    //     ERC20(0xdf9B4b57865B403e08c85568442f95c26b7896b0).approve(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff, values[1]);
 
-        (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: values[0] }(
-            0xdf9B4b57865B403e08c85568442f95c26b7896b0,
-            // Sunflower Tokens to use
-            values[1],
-            0, 
-            0,
-            0x000000000000000000000000000000000000dEaD,
-            block.timestamp
-        );
+    //     (uint amountToken, uint amountETH, uint liquidity) = uniswapV2Router.addLiquidityETH{ value: values[0] }(
+    //         0xdf9B4b57865B403e08c85568442f95c26b7896b0,
+    //         // Sunflower Tokens to use
+    //         values[1],
+    //         0, 
+    //         0,
+    //         0x000000000000000000000000000000000000dEaD,
+    //         block.timestamp
+    //     );
 
-        uint ethLeftover = msg.value.sub(amountETH);
+    //     uint ethLeftover = msg.value.sub(amountETH);
 
-        // 80% of leftover to designer
-        uint designerCommission = ethLeftover.mul(80).div(100);
-        (bool sent, bytes memory data) = owner.call{value: designerCommission}("");
-        require(sent, "DESIGNER_COMMISION_FAILED");
+    //     // 80% of leftover to designer
+    //     uint designerCommission = ethLeftover.mul(80).div(100);
+    //     (bool sent, bytes memory data) = owner.call{value: designerCommission}("");
+    //     require(sent, "DESIGNER_COMMISION_FAILED");
 
-        uint sunflowerCommision = ethLeftover - designerCommission;
-        (bool sentTeam, bytes memory data2) = sunflowerTeam.call{value: sunflowerCommision}("");
-        require(sentTeam, "TEAM_COMMISION_FAILED");
+    //     uint sunflowerCommision = ethLeftover - designerCommission;
+    //     (bool sentTeam, bytes memory data2) = sunflowerTeam.call{value: sunflowerCommision}("");
+    //     require(sentTeam, "TEAM_COMMISION_FAILED");
     }
 
     function getRecipe(address recipe) public view returns (CommunityRecipe memory) {

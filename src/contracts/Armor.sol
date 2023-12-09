@@ -4,7 +4,7 @@ pragma solidity >=0.6.0 <0.8.0;
 
 // Example NFT contract
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.3.0/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract Armor is ERC721 {
   address public minter;

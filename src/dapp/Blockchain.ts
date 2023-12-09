@@ -1,10 +1,11 @@
 import Web3 from "web3";
 
-import Token from "../abis/Token.json";
-import Farm from "../abis/Farm.json";
+import Token from "../abis/TokenV2.json";
+import Farm from "../abis/FarmV2.json";
 import CommunityCrafting from "../abis/CommunityCrafting.json";
 import Chicken from "../abis/Chicken.json";
 import QuickSwap from "../abis/QuickSwapRouter.json";
+import Axe from "../abis/Axe.json"
 
 import {
   Transaction,
@@ -22,6 +23,7 @@ import {
 } from "./types/crafting";
 import { onboarded } from "./utils/localStorage";
 import { getUpgradePrice } from "./utils/land";
+import { deployedContracts } from "../deployments";
 
 interface Account {
   farm: Square[];
@@ -33,8 +35,8 @@ type Contracts = Record<ItemName, any>;
 
 export const MINIMUM_GAS_PRICE = 40;
 const SAVE_OFFSET_SECONDS = 5;
-export const COMMUNITY_CRAFTING_ADDRESS =
-  "0x248b3f1ead0aB11A975c55A6ed8c690B5E5A10d1";
+export const COMMUNITY_CRAFTING_ADDRESS =deployedContracts.CommunityCrafting
+  ;
 
 export class BlockChain {
   private web3: Web3 | null = null;
@@ -66,28 +68,29 @@ export class BlockChain {
   private async connectToMatic() {
     try {
       this.token = new this.web3.eth.Contract(
-        Token as any,
-        "0xdf9B4b57865B403e08c85568442f95c26b7896b0"
+        Token.abi as any,
+        deployedContracts.Token
       );
       this.farm = new this.web3.eth.Contract(
-        Farm as any,
-        "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
+        Farm.abi as any,
+        deployedContracts.Farm
       );
       this.chickens = new this.web3.eth.Contract(
-        Chicken as any,
-        "0xf0F1Cc9192ca0064EB3D35e0DE1CE5e56572ecab"
+        Chicken.abi as any,
+        deployedContracts.Chicken
       );
       this.quickswap = new this.web3.eth.Contract(
         QuickSwap as any,
         "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
       );
       this.communityCrafting = new this.web3.eth.Contract(
-        CommunityCrafting as any,
+        CommunityCrafting.abi as any,
         COMMUNITY_CRAFTING_ADDRESS
       );
+
       const maticAccounts = await this.web3.eth.getAccounts();
       this.account = maticAccounts[0];
-
+      console.log(this.account)
       this.contracts = items
         .filter((item) => !!item.abi)
         .reduce(
@@ -100,14 +103,13 @@ export class BlockChain {
           }),
           {} as Contracts
         );
-
       this.alchemyToken = new this.web3.eth.Contract(
-        Token as any,
-        "0xdf9B4b57865B403e08c85568442f95c26b7896b0"
+        Token.abi as any,
+        deployedContracts.Token
       );
       this.alchemyFarm = new this.web3.eth.Contract(
-        Farm as any,
-        "0x6e5Fa679211d7F6b54e14E187D34bA547c5d3fe0"
+        Farm.abi as any,
+        deployedContracts.Farm
       );
     } catch (e) {
       // Timeout, retry
@@ -160,7 +162,7 @@ export class BlockChain {
       this.oldInventory = null;
       const chainId = await this.web3.eth.getChainId();
 
-      if (chainId === 137) {
+      if (chainId === 943) {
         await this.connectToMatic();
 
         await this.loadFarm();
@@ -844,15 +846,25 @@ export class BlockChain {
     return values;
   }
 
+  public getKeyByValue(object:any, value:any):any {
+    return Object.keys(object).find(key => object[key] === value);
+  }
+
   private async loadTotalItemSupplies(): Promise<Inventory> {
     // Call totalSupply on each item
+console.log(Object.keys(this.contracts),'umar')
     const itemSupplyPromise = Object.values(this.contracts).map(
-      (contract) =>
-        contract.methods.totalSupply().call({ from: this.account })
-    );
+      (contract) =>{
+        return contract.methods.totalSupply().call({ from: this.account }).then((res : any)=>{
+          console.log(res,'umar')
+          console.log(this.getKeyByValue(this.contracts,contract),'umar')
+        })
+    });
+    console.log(itemSupplyPromise.length,'umar')
 
-    const itemTotalSupplies = await Promise.all(itemSupplyPromise);
+    var itemTotalSupplies = await Promise.all(itemSupplyPromise);
 
+    console.log(itemTotalSupplies)
     const values: Record<ItemName, number> = Object.keys(
       this.contracts
     ).reduce(

@@ -12,7 +12,8 @@ import bottomRightInner from '../../images/ui/message/w_box_9slice_br.png'
 import './Panel.css'
 
 interface Props {
-    onClick?: () => void
+    onClick?: () => void,
+    children?: React.ReactNode
 }
 export const Message: React.FC<Props> = ({
     children,
